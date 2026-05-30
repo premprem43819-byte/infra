@@ -79,9 +79,12 @@ addRowBtn.addEventListener("click", () => {
     row.innerHTML = `
     
         <td>${rowCount}</td>
+        <td>
+         <input type="text" >
+        </td>
 
         <td>
-            <input type="text" placeholder="Material">
+            <input type="text" >
         </td>
 
         <td>
