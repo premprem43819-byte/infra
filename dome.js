@@ -22,10 +22,10 @@ function updateTotals() {
         // Row Number
         row.cells[0].innerText = index + 1;
 
+
         // Qty and Price
         const qtyInput = row.querySelector(".qty");
         const priceInput = row.querySelector(".price");
-
         const qty = Number(qtyInput.value) || 0;
         const price = Number(priceInput.value) || 0;
 
@@ -80,11 +80,11 @@ addRowBtn.addEventListener("click", () => {
     
         <td>${rowCount}</td>
         <td>
-         <input type="text" >
+        <input type="text" >
         </td>
 
         <td>
-            <input type="text" >
+            <input type="text" placeholder="Material">
         </td>
 
         <td>
