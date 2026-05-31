@@ -15,35 +15,25 @@ function makeRow(n) {
     '<td><input type="text"></td>' +
     '<td><input type="number" class="qty"   min="0" inputmode="decimal"></td>' +
     '<td><input type="number" class="price" min="0" inputmode="decimal"></td>' +
-    '<td class="qty-total">-</td>' +
     '<td class="total">-</td>';
   return tr;
 }
 
 // ── UPDATE TOTALS ────────────────────────────────
 function updateTotals() {
-  var grand    = 0;
-  var grandQty = 0;
+  var grand = 0;
   tbody.querySelectorAll('tr').forEach(function(row, i) {
     row.cells[0].innerText = i + 1;
     var qty   = parseFloat(row.querySelector('.qty').value);
     var price = parseFloat(row.querySelector('.price').value);
     if (!isNaN(qty) && !isNaN(price)) {
       var t = qty * price;
-      row.querySelector('.qty-total').innerText = qty.toFixed(2);
-      row.querySelector('.total').innerText     = t.toFixed(2);
-      grand    += t;
-      grandQty += qty;
-    } else if (!isNaN(qty)) {
-      row.querySelector('.qty-total').innerText = qty.toFixed(2);
-      row.querySelector('.total').innerText     = '-';
-      grandQty += qty;
+      row.querySelector('.total').innerText = t.toFixed(2);
+      grand += t;
     } else {
-      row.querySelector('.qty-total').innerText = '-';
-      row.querySelector('.total').innerText     = '-';
+      row.querySelector('.total').innerText = '-';
     }
   });
-  document.getElementById('qtyGrandTotal').innerText = grandQty > 0 ? grandQty.toFixed(2) : '0';
   grandTotalEl.innerText = '₹ ' + grand.toFixed(2);
 }
 
@@ -129,8 +119,7 @@ function buildReceiptHTML() {
   var rowsHTML = '';
   tbody.querySelectorAll('tr').forEach(function(row, i) {
     var inp      = row.querySelectorAll('input');
-    var qtyTot   = row.querySelector('.qty-total').innerText;
-    var total    = row.querySelector('.total').innerText;
+    var total = row.querySelector('.total').innerText;
     rowsHTML +=
       '<tr>' +
       '<td style="text-align:center;border:1px solid #000;padding:5px;width:36px;">' + (i+1) + '</td>' +
@@ -138,7 +127,6 @@ function buildReceiptHTML() {
       '<td style="border:1px solid #000;padding:5px;">'                   + (inp[1].value||'') + '</td>' +
       '<td style="border:1px solid #000;padding:5px;text-align:center;">' + (inp[2].value||'') + '</td>' +
       '<td style="border:1px solid #000;padding:5px;text-align:center;">' + (inp[3].value||'') + '</td>' +
-      '<td style="border:1px solid #000;padding:5px;text-align:center;font-weight:bold;background:#fff8e1;">' + qtyTot + '</td>' +
       '<td style="border:1px solid #000;padding:5px;text-align:center;font-weight:bold;">' + total + '</td>' +
       '</tr>';
   });
@@ -189,13 +177,11 @@ function buildReceiptHTML() {
           '<th style="background:#c69c6d;border:1px solid #000;padding:6px;">Material</th>' +
           '<th style="background:#c69c6d;border:1px solid #000;padding:6px;">Qty</th>' +
           '<th style="background:#c69c6d;border:1px solid #000;padding:6px;">Price</th>' +
-          '<th style="background:#ffe082;border:1px solid #000;padding:6px;">Qty Total</th>' +
           '<th style="background:#c69c6d;border:1px solid #000;padding:6px;">Total</th>' +
         '</tr></thead>' +
         '<tbody>' + rowsHTML + '</tbody>' +
         '<tfoot><tr>' +
           '<td colspan="4" style="text-align:right;font-size:18px;font-weight:bold;padding:8px 12px;border:1px solid #000;">Total</td>' +
-          '<td style="text-align:center;font-size:18px;font-weight:bold;border:1px solid #000;background:#fff8e1;">' + document.getElementById('qtyGrandTotal').innerText + '</td>' +
           '<td colspan="2" style="text-align:center;font-size:18px;font-weight:bold;border:1px solid #000;">' + grandTotalEl.innerText + '</td>' +
         '</tr></tfoot>' +
       '</table>' +
