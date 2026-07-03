@@ -191,7 +191,7 @@ body {
 #receiptTable th,
 #receiptTable td {
   border: 1px solid var(--border-color);
-  padding: 4px;
+  padding: 6px;
   transition: border-color 0.3s;
 }
 
@@ -207,7 +207,7 @@ body {
 
 .empty-box {
   background: var(--bg-empty);
-  width: 15px;
+  width: 70px;
   transition: background 0.3s;
 }
 
