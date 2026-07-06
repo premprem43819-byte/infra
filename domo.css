@@ -12,7 +12,6 @@
   --green: #24c26b;
   --red: #ff5d5d;
 }
-
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -40,7 +39,6 @@ body::after {
   pointer-events: none;
   z-index: 0;
 }
-
 body::before {
   width: 420px;
   height: 420px;
@@ -48,7 +46,6 @@ body::before {
   top: -120px;
   left: -120px;
 }
-
 body::after {
   width: 380px;
   height: 380px;
@@ -57,26 +54,19 @@ body::after {
   right: -100px;
   opacity: 0.18;
 }
-
 button, input {
   font: inherit;
 }
-
 input {
   color: var(--text);
 }
-
 input::placeholder {
   color: rgba(255, 255, 255, 0.35);
 }
-
 input:focus {
   outline: none;
   background: rgba(120, 170, 255, 0.14);
 }
-
-/* ---------- Top bar ---------- */
-
 .topbar {
   position: sticky;
   top: 0;
