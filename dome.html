@@ -1,84 +1,100 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Sri Sawdamman Infra</title>
-  <link rel="icon" type="image/svg+xml" herf="favicon.svg"
-<link rel="stylesheet" href="domo.css">
-  <script scr="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"> </script>
-     <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sri Sawdamman Infra</title>
+  <link rel="stylesheet" href="domo.css" />
+
+  <!-- PDF libraries -->
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
 </head>
 <body>
+
   <div id="toast"></div>
   <div id="printArea"></div>
-  <dic class="topbar"></dic>
-  <div class="brand"></div>
-  <div class="logo">🏗️</div>
-  <div >
-    <div class="brand-name">Sri sawdamman Infra</div>
-    <div class="brand-sub">Material Output Receipt</div>
+
+  <div class="topbar">
+    <div class="brand">
+      <div class="logo">🏗️</div>
+      <div>
+        <div class="brand-name">Sri Sawdamman Infra</div>
+        <div class="brand-sub">Material Output Receipt</div>
+      </div>
+    </div>
+    <div class="status">
+      <span id="statusDot"></span>
+      <span id="statusText">Ready</span>
+    </div>
   </div>
-</div>
-  <div class="status">
-    <span id="statusDot"></span>
-    <span id="statusText">Ready</span>
-  </div>
-</div>
+
   <main class="app">
     <section class="card">
+
       <header class="header">
         <h1>Sri Sawdamman Infra</h1>
-        <p>✦ Material Output Receipt ✦</p>
+        <p>✦ Material Ouput Receipt ✦</p>
       </header>
-      <section class="infro-grid">
+
+      <section class="info-grid">
         <div class="left-info">
           <div class="info-row">
-            <laber>From :</laber>
-            <input data-key="from" placeholder="sender / loction" />
+            <label>From :</label>
+            <input data-key="from" placeholder="Sender / location" />
           </div>
+
           <div class="info-row">
-            <laber>To :</laber>
-            <input data-key="To" placeholder="sender / loction" />
+            <label>To :</label>
+            <input data-key="to" placeholder="Receiver / location" />
           </div>
-          <div class="material-badge"> MATERIAL OUTPUT  </div>
+
+          <div class="material-badge">⬖ MATERIAL OUTPUT ⬗</div>
         </div>
-          <div class="right-info">
-            <div class="infro-row multi">
-              <label>Place :</label>
-              <div >
-                <input data-key="place1" value="Kendaigoundanur" />
-                 <input data-key="place2" value="Sullerumbu" />
-                 <input data-key="place3" value="Dindigul, TamilNadu 624710" />
-              </div> 
-              <div class="Info-row multi">
-                <label>Cell Mo :</label>
-                <input data-key="cell1" value="7904689983" />
-                <input data-key="cell2" value="6369477188" />
-              </div>
+
+        <div class="right-info">
+          <div class="info-row multi">
+            <label>Place :</label>
+            <div>
+              <input data-key="place1" value="Kendaigoundanur" />
+              <input data-key="place2" value="Sullerumbu" />
+              <input data-key="place3" value="Dindigul, Tamilnadu 624710" />
             </div>
           </div>
+
+          <div class="info-row multi">
+            <label>Cell No :</label>
+            <div>
+              <input data-key="cell1" value="7904689983" />
+              <input data-key="cell2" value="6369477188" />
+            </div>
+          </div>
+        </div>
       </section>
+
       <section class="date-nav">
         <div class="date-main">
           <label>📅 Date</label>
-          <input id="docDate" date-key="docDate" maxlength="10" inputmode="numeric" placeholder="DD/MM/YYYY" />
+          <input id="docDate" data-key="docDate" maxlength="10" inputmode="numeric" placeholder="DD/MM/YYYY" />
         </div>
+
         <div class="date-display">
           <div><b>Day</b><span id="dayText">-</span></div>
-          <div><b>Weak</b><span id="weakText">-</span></div>
+          <div><b>Week</b><span id="weekText">-</span></div>
           <div><b>Month</b><span id="monthText">-</span></div>
         </div>
+
         <div class="nav-buttons">
-          <button id="prevday">◀ Day</button>
-          <button id="todayday">Today</button>
-          <button id="nextvday">Day ▶</button>
-          <button id="prevweak">◀ Weak</button>
-          <button id="nextweak">Weak ▶</button>
-          <button id="prevmonth">◀ Month</button>
-          <button id="nnextmonth">Month ▶</button>
+          <button id="prevDay">◀ Day</button>
+          <button id="todayBtn">Today</button>
+          <button id="nextDay">Day ▶</button>
+          <button id="prevWeek">◀ Week</button>
+          <button id="nextWeek">Week ▶</button>
+          <button id="prevMonth">◀ Month</button>
+          <button id="nextMonth">Month ▶</button>
         </div>
       </section>
+
       <section class="meta-grid">
         <div>
           <label>📋 Voucher</label>
@@ -86,13 +102,14 @@
         </div>
         <div>
           <label>🚚 Vehicle</label>
-          <input data-key="vehicleNo" placeholder="TN45 ABC123" />
+          <input data-key="vehicleNo" placeholder="TN57 AB1234" />
         </div>
         <div>
           <label>👤 Driver</label>
-          <input data-key="driverNo" placeholder="Driver name" />
+          <input data-key="driverName" placeholder="Driver name" />
         </div>
       </section>
+
       <div class="table-wrap">
         <table id="receiptTable">
           <thead>
@@ -110,31 +127,29 @@
           <tfoot>
             <tr>
               <td colspan="5" class="grand-label">Grand Total</td>
-              <td colspan="2" class="grandTotal">₹ 0.00</td>
+              <td colspan="2" id="grandTotal">₹ 0.00</td>
             </tr>
           </tfoot>
         </table>
       </div>
+
       <section class="signature-screen">
         <div>Prepared By</div>
         <div>Checked By</div>
         <div>Authorised Signatory</div>
-</section>    
-      <section class="action">
-        <button id="addRowBtn" class="green">+ Add Row</button>
+      </section>
+
+      <section class="actions">
+        <button id="addRowBtn" class="green">＋ Add Row</button>
         <button id="clearBtn" class="gray">Clear</button>
         <button id="shareBtn" class="purple">Share</button>
-        <button id="pdfBtn" class="orange">Doenload</button>
-        <button id="printBtn" class="blue">Print All</button>
+        <button id="pdfBtn" class="orange">Download PDF</button>
+        <button id="printBtn" class="blue">Print All Printer</button>
       </section>
+
     </section>
   </main>
-  <script scr="dome.js"></script>
+
+  <script src="dome.js"></script>
 </body>
 </html>
-
-        
-       
-      
-        
-                
