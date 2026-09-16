@@ -9,268 +9,16 @@
   >
 
   <meta name="theme-color" content="#0d2060">
-  <meta name="color-scheme" content="dark">
+  <meta name="color-scheme" content="dark light">
 
   <title>Sri Sawdamman Infra</title>
 
   <!-- Main CSS file -->
   <link rel="stylesheet" href="domo.css">
-
-  <!-- PDF libraries -->
-  <script
-    defer
-    src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js">
-  </script>
-
-  <script
+<script
     defer
     src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js">
   </script>
-
-  <!-- Extra styles required for OCR preview and modal -->
-  <style>
-    /* Correct Today button ID used by JavaScript */
-    #todayDateBtn {
-      background: rgba(36, 194, 107, 0.65) !important;
-      border-color: rgba(36, 194, 107, 0.8) !important;
-    }
-
-    /* Image OCR controls */
-    .ocr-tools {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 10px;
-      padding: 14px 16px;
-      background: rgba(255, 255, 255, 0.04);
-      border-bottom: 1px solid var(--border);
-    }
-
-    .ocr-tools label {
-      font-size: 14px;
-      font-weight: 800;
-      color: var(--gold-soft);
-    }
-
-    .ocr-tools select {
-      min-height: 42px;
-      padding: 8px 12px;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      background: rgba(255, 255, 255, 0.09);
-      color: #ffffff;
-      font: inherit;
-      font-weight: 700;
-    }
-
-    .ocr-tools select option {
-      color: #000000;
-    }
-
-    .ocr-tools button {
-      min-height: 42px;
-      padding: 8px 15px;
-      border: none;
-      border-radius: 10px;
-      color: #ffffff;
-      font-weight: 800;
-      cursor: pointer;
-    }
-
-    /* OCR preview */
-    .ocr-preview-box {
-      display: none;
-      margin: 14px;
-      padding: 14px;
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      background: rgba(255, 255, 255, 0.05);
-    }
-
-    .ocr-preview-box.show {
-      display: block;
-    }
-
-    .ocr-preview-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 12px;
-    }
-
-    .ocr-preview-header h2 {
-      font-size: 18px;
-      color: var(--gold-soft);
-    }
-
-    #ocrPreviewInfo {
-      margin-top: 4px;
-      font-size: 13px;
-      color: var(--muted);
-    }
-
-    .ocr-preview-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-
-    .ocr-preview-actions button {
-      min-height: 40px;
-      padding: 8px 14px;
-      border: none;
-      border-radius: 10px;
-      color: #ffffff;
-      font-weight: 800;
-      cursor: pointer;
-    }
-
-    .ocr-preview-table {
-      overflow-x: auto;
-    }
-
-    .ocr-preview-table table {
-      width: 100%;
-      min-width: 650px;
-      border-collapse: collapse;
-      table-layout: fixed;
-    }
-
-    .ocr-preview-table th,
-    .ocr-preview-table td {
-      border: 1px solid var(--border);
-      padding: 7px;
-      text-align: center;
-    }
-
-    .ocr-preview-table th {
-      background: rgba(255, 255, 255, 0.10);
-      font-size: 13px;
-    }
-
-    .ocr-preview-table input {
-      width: 100%;
-      padding: 7px;
-      border: none;
-      background: transparent;
-      color: #ffffff;
-      font-weight: 600;
-    }
-
-    .ocr-total-cell {
-      color: #4cff88;
-      font-weight: 900;
-      white-space: nowrap;
-    }
-
-    /* Save modal */
-    .modal-overlay {
-      position: fixed;
-      inset: 0;
-      z-index: 2000;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 18px;
-      background: rgba(0, 0, 0, 0.72);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-    }
-
-    .modal-overlay.show {
-      display: flex;
-    }
-
-    .modal-box {
-      width: min(440px, 100%);
-      padding: 22px;
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      background: #101a46;
-      color: #ffffff;
-      box-shadow: 0 24px 70px rgba(0, 0, 0, 0.55);
-    }
-
-    .modal-box h2 {
-      margin-bottom: 8px;
-      color: var(--gold);
-    }
-
-    #modalText {
-      margin-bottom: 14px;
-      overflow-wrap: anywhere;
-      color: var(--muted);
-    }
-
-    #modalSteps {
-      display: grid;
-      gap: 8px;
-      margin-bottom: 16px;
-    }
-
-    .step {
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-      padding: 9px;
-      border-radius: 10px;
-      background: rgba(255, 255, 255, 0.07);
-    }
-
-    .step-n {
-      display: grid;
-      place-items: center;
-      flex: 0 0 26px;
-      width: 26px;
-      height: 26px;
-      border-radius: 50%;
-      background: #1454d0;
-      font-weight: 900;
-    }
-
-    .modal-buttons {
-      display: flex;
-      gap: 10px;
-    }
-
-    .modal-buttons button {
-      flex: 1;
-      min-height: 44px;
-      padding: 9px;
-      border: none;
-      border-radius: 11px;
-      color: #ffffff;
-      font-weight: 800;
-      cursor: pointer;
-    }
-
-    @media (max-width: 760px) {
-      .ocr-tools {
-        flex-direction: column;
-        align-items: stretch;
-      }
-
-      .ocr-tools select,
-      .ocr-tools button {
-        width: 100%;
-      }
-
-      .ocr-preview-header {
-        align-items: stretch;
-        flex-direction: column;
-      }
-
-      .ocr-preview-actions button {
-        flex: 1;
-      }
-
-      .modal-buttons {
-        flex-direction: column;
-      }
-    }
-  </style>
 </head>
 
 <body>
@@ -311,9 +59,15 @@
       </div>
     </div>
 
-    <div class="status">
-      <span id="statusDot" class="status-dot"></span>
-      <span id="statusTxt">Ready</span>
+    <div class="topbar-actions" aria-label="Application controls">
+      <button type="button" id="themeBtn" class="icon-btn" aria-label="Switch theme" aria-pressed="false" title="Switch theme">☀️</button>
+      <button type="button" id="exportBtn" class="icon-btn" aria-label="Export backup" title="Export backup">⬇️</button>
+      <button type="button" id="importBtn" class="icon-btn" aria-label="Restore backup" title="Restore backup">⬆️</button>
+      <input id="importInput" type="file" accept="application/json,.json" hidden>
+      <div class="status" aria-live="polite">
+        <span id="statusDot" class="status-dot"></span>
+        <span id="statusTxt">Ready</span>
+      </div>
     </div>
   </header>
 
@@ -513,6 +267,31 @@
         </div>
       </section>
 
+      <!-- Live receipt summary -->
+      <section class="summary-grid" aria-label="Receipt summary">
+        <article class="summary-card">
+          <span class="summary-icon">📦</span>
+          <div>
+            <p>Line Items</p>
+            <strong id="statItems">0</strong>
+          </div>
+        </article>
+        <article class="summary-card">
+          <span class="summary-icon">⚖️</span>
+          <div>
+            <p>Total Quantity</p>
+            <strong id="statQty">0</strong>
+          </div>
+        </article>
+        <article class="summary-card featured">
+          <span class="summary-icon">💰</span>
+          <div>
+            <p>Grand Total</p>
+            <strong id="statTotal">₹ 0.00</strong>
+          </div>
+        </article>
+      </section>
+
       <!-- Image OCR tools -->
       <section class="ocr-tools">
         <label for="ocrLangSelect">
@@ -540,6 +319,7 @@
         >
           📷 Auto Fill from Image
         </button>
+        <span class="tool-hint">Best results: clear, straight photo of the material table.</span>
       </section>
 
       <!-- Main receipt table -->
@@ -664,6 +444,14 @@
 
         <button
           type="button"
+          id="saveDraftBtn"
+          class="blue"
+        >
+          💾 Save Draft
+        </button>
+
+        <button
+          type="button"
           id="clearBtn"
           class="gray"
         >
@@ -691,9 +479,16 @@
           id="printBtn"
           class="blue"
         >
-          Print All Printer
+          Print Receipt
         </button>
       </section>
+
+      <div class="shortcut-bar" aria-label="Keyboard shortcuts">
+        <span><kbd>Ctrl</kbd> + <kbd>S</kbd> Save PDF</span>
+        <span><kbd>Ctrl</kbd> + <kbd>P</kbd> Print</span>
+        <span><kbd>Ctrl</kbd> + <kbd>Enter</kbd> Add row</span>
+        <span>Drafts auto-save in this browser.</span>
+      </div>
 
     </section>
   </main>
@@ -736,6 +531,6 @@
   </div>
 
   <!-- Main JavaScript file -->
-  <script src="dome.js"></script>
+  <script src="dome.js" defer></script>
 </body>
 </html>
