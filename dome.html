@@ -2,63 +2,45 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-
   <meta
     name="viewport"
     content="width=device-width, initial-scale=1.0"
   >
-
   <meta name="theme-color" content="#0d2060">
   <meta name="color-scheme" content="dark light">
-
   <title>Sri Sawdamman Infra</title>
-
-  <!-- Main CSS file -->
   <link rel="stylesheet" href="domo.css">
 <script
     defer
     src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js">
   </script>
 </head>
-
 <body>
-
-  <!-- Notification message -->
   <div id="toast" role="status" aria-live="polite"></div>
-
-  <!-- Print content is generated here by JavaScript -->
   <div id="printArea"></div>
-
-  <!-- Hidden values needed for print, share and local storage -->
   <input
     type="hidden"
     id="dayField"
     data-key="day"
   >
-
   <input
     type="hidden"
     id="weekField"
     data-key="week"
   >
-
   <input
     type="hidden"
     id="monthField"
     data-key="month"
   >
-
-  <!-- Top bar -->
   <header class="topbar">
     <div class="brand">
       <div class="logo" aria-hidden="true">🏗️</div>
-
       <div>
         <div class="brand-name">Sri Sawdamman Infra</div>
         <div class="brand-sub">Material Input Receipt</div>
       </div>
     </div>
-
     <div class="topbar-actions" aria-label="Application controls">
       <button type="button" id="themeBtn" class="icon-btn" aria-label="Switch theme" aria-pressed="false" title="Switch theme">☀️</button>
       <button type="button" id="exportBtn" class="icon-btn" aria-label="Export backup" title="Export backup">⬇️</button>
@@ -70,23 +52,16 @@
       </div>
     </div>
   </header>
-
   <main class="app">
     <section class="card">
-
-      <!-- Receipt heading -->
       <header class="header">
         <h1>Sri Sawdamman Infra</h1>
         <p>✦ Material Input Receipt ✦</p>
       </header>
-
-      <!-- From, To, Place and Phone -->
       <section class="info-grid">
         <div class="left-info">
-
           <div class="info-row">
             <label for="fromInput">From :</label>
-
             <input
               type="text"
               id="fromInput"
@@ -95,10 +70,8 @@
               autocomplete="off"
             >
           </div>
-
           <div class="info-row">
             <label for="toInput">To :</label>
-
             <input
               type="text"
               id="toInput"
@@ -107,17 +80,13 @@
               autocomplete="off"
             >
           </div>
-
           <div class="material-badge">
             ⬖ Material Input ⬗
           </div>
         </div>
-
         <div class="right-info">
-
           <div class="info-row multi">
             <label>Place :</label>
-
             <div>
               <input
                 type="text"
@@ -125,14 +94,12 @@
                 value="Kendaigoundanur"
                 aria-label="Place line 1"
               >
-
               <input
                 type="text"
                 data-key="place2"
                 value="Sullerumbu"
                 aria-label="Place line 2"
               >
-
               <input
                 type="text"
                 data-key="place3"
@@ -141,10 +108,8 @@
               >
             </div>
           </div>
-
           <div class="info-row multi">
             <label>Cell No :</label>
-
             <div>
               <input
                 type="tel"
@@ -153,7 +118,6 @@
                 inputmode="tel"
                 aria-label="Phone number 1"
               >
-
               <input
                 type="tel"
                 data-key="cell2"
@@ -163,15 +127,11 @@
               >
             </div>
           </div>
-
         </div>
       </section>
-
-      <!-- Date navigation -->
       <section class="date-nav">
         <div class="date-main">
           <label for="docDate">📅 Date</label>
-
           <input
             type="text"
             id="docDate"
@@ -182,57 +142,44 @@
             placeholder="DD/MM/YYYY"
           >
         </div>
-
         <div class="date-display">
           <div>
             <span id="dayText">Day: -</span>
           </div>
-
           <div>
             <span id="weekText">Week: -</span>
           </div>
-
           <div>
             <span id="monthText">Month: -</span>
           </div>
         </div>
-
         <div class="nav-buttons">
           <button type="button" id="prevDayBtn">
             ◀ Day
           </button>
-
           <button type="button" id="todayDateBtn">
             Today
           </button>
-
           <button type="button" id="nextDayBtn">
             Day ▶
           </button>
-
           <button type="button" id="prevWeekBtn">
             ◀ Week
           </button>
-
           <button type="button" id="nextWeekBtn">
             Week ▶
           </button>
-
           <button type="button" id="prevMonthBtn">
             ◀ Month
           </button>
-
           <button type="button" id="nextMonthBtn">
             Month ▶
           </button>
         </div>
       </section>
-
-      <!-- Voucher, Vehicle and Driver -->
       <section class="meta-grid">
         <div>
           <label for="voucherNo">📋 Voucher</label>
-
           <input
             type="text"
             id="voucherNo"
@@ -241,10 +188,8 @@
             autocomplete="off"
           >
         </div>
-
         <div>
           <label for="vehicleNo">🚚 Vehicle</label>
-
           <input
             type="text"
             id="vehicleNo"
@@ -253,10 +198,8 @@
             autocomplete="off"
           >
         </div>
-
         <div>
           <label for="driverName">👤 Driver</label>
-
           <input
             type="text"
             id="driverName"
@@ -266,8 +209,6 @@
           >
         </div>
       </section>
-
-      <!-- Live receipt summary -->
       <section class="summary-grid" aria-label="Receipt summary">
         <article class="summary-card">
           <span class="summary-icon">📦</span>
@@ -291,19 +232,15 @@
           </div>
         </article>
       </section>
-
-      <!-- Image OCR tools -->
       <section class="ocr-tools">
         <label for="ocrLangSelect">
           📷 Image Language
         </label>
-
         <select id="ocrLangSelect">
           <option value="eng+tam">Tamil + English</option>
           <option value="eng">English Only</option>
           <option value="tam">Tamil Only</option>
         </select>
-
         <input
           type="file"
           id="imageInput"
@@ -311,7 +248,6 @@
           capture="environment"
           hidden
         >
-
         <button
           type="button"
           id="imageBtn"
@@ -321,8 +257,6 @@
         </button>
         <span class="tool-hint">Best results: clear, straight photo of the material table.</span>
       </section>
-
-      <!-- Main receipt table -->
       <div class="table-wrap">
         <table id="receiptTable">
           <thead>
@@ -336,8 +270,6 @@
               <th>Del</th>
             </tr>
           </thead>
-
-          <!-- Rows are generated by JavaScript -->
           <tbody id="tbody"></tbody>
 
           <tfoot>
@@ -348,13 +280,10 @@
               >
                 📦 Qty Total
               </td>
-
               <td id="qtyTotal">0</td>
-
               <td class="gtotal-label">
                 💰 Grand Total
               </td>
-
               <td
                 colspan="2"
                 id="grandTotal"
@@ -362,7 +291,6 @@
                 ₹ 0.00
               </td>
             </tr>
-
             <tr
               class="words-row"
               style="display: none;"
@@ -376,8 +304,6 @@
           </tfoot>
         </table>
       </div>
-
-      <!-- OCR result preview -->
       <section
         id="ocrPreviewBox"
         class="ocr-preview-box"
@@ -387,7 +313,6 @@
             <h2>Image Scan Preview</h2>
             <p id="ocrPreviewInfo">No rows scanned</p>
           </div>
-
           <div class="ocr-preview-actions">
             <button
               type="button"
@@ -396,7 +321,6 @@
             >
               ✓ Add Preview Rows
             </button>
-
             <button
               type="button"
               id="ocrClearBtn"
@@ -406,7 +330,6 @@
             </button>
           </div>
         </div>
-
         <div class="ocr-preview-table">
           <table>
             <thead>
@@ -419,20 +342,15 @@
                 <th>Total ₹</th>
               </tr>
             </thead>
-
             <tbody id="ocrPreviewBody"></tbody>
           </table>
         </div>
       </section>
-
-      <!-- Signatures -->
       <section class="signature-screen">
         <div>Prepared By</div>
         <div>Checked By</div>
         <div>Authorised Signatory</div>
       </section>
-
-      <!-- Main action buttons -->
       <section class="actions">
         <button
           type="button"
@@ -441,7 +359,6 @@
         >
           ＋ Add Row
         </button>
-
         <button
           type="button"
           id="saveDraftBtn"
@@ -449,7 +366,6 @@
         >
           💾 Save Draft
         </button>
-
         <button
           type="button"
           id="clearBtn"
@@ -457,7 +373,6 @@
         >
           Clear
         </button>
-
         <button
           type="button"
           id="shareBtn"
@@ -465,7 +380,6 @@
         >
           Share
         </button>
-
         <button
           type="button"
           id="saveBtn"
@@ -473,7 +387,6 @@
         >
           Download PDF
         </button>
-
         <button
           type="button"
           id="printBtn"
@@ -482,18 +395,14 @@
           Print Receipt
         </button>
       </section>
-
       <div class="shortcut-bar" aria-label="Keyboard shortcuts">
         <span><kbd>Ctrl</kbd> + <kbd>S</kbd> Save PDF</span>
         <span><kbd>Ctrl</kbd> + <kbd>P</kbd> Print</span>
         <span><kbd>Ctrl</kbd> + <kbd>Enter</kbd> Add row</span>
         <span>Drafts auto-save in this browser.</span>
       </div>
-
     </section>
   </main>
-
-  <!-- iPhone/iPad save instructions modal -->
   <div
     id="saveModal"
     class="modal-overlay"
@@ -505,11 +414,8 @@
       <h2 id="saveModalTitle">
         Save Receipt
       </h2>
-
       <p id="modalText"></p>
-
       <div id="modalSteps"></div>
-
       <div class="modal-buttons">
         <button
           type="button"
@@ -518,7 +424,6 @@
         >
           Open Receipt
         </button>
-
         <button
           type="button"
           id="modalCloseBtn"
@@ -529,8 +434,6 @@
       </div>
     </div>
   </div>
-
-  <!-- Main JavaScript file -->
   <script src="dome.js" defer></script>
 </body>
 </html>
