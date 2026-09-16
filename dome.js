@@ -1,11 +1,9 @@
 'use strict';
-
 const DRAFT_KEY='ssi_lg_sawdamman_bw_v2';
 const LEGACY_DRAFT_KEY='ssi_lg_sawdamman_bw_v1';
 const BACKUP_VERSION=3;
 const THEME_KEY='ssi_lg_theme_v1';
 const MIN_ROWS=12;
-
 const tbody=document.getElementById('tbody');
 const grandTotalEl=document.getElementById('grandTotal');
 const qtyTotalEl=document.getElementById('qtyTotal');
@@ -14,10 +12,6 @@ const statusDot=document.getElementById('statusDot');
 const statusTxt=document.getElementById('statusTxt');
 const printArea=document.getElementById('printArea');
 
-/* =========================
-   UTILITIES
-========================= */
-
 function debounce(fn,ms){
   let t;
   return (...a)=>{
@@ -25,20 +19,17 @@ function debounce(fn,ms){
     t=setTimeout(()=>fn(...a),ms);
   };
 }
-
 function money(v){
   return '₹\u00a0'+(+v||0).toLocaleString('en-IN',{
     minimumFractionDigits:2,
     maximumFractionDigits:2
   });
 }
-
 function qtyText(v){
   return (+v||0).toLocaleString('en-IN',{
     maximumFractionDigits:2
   });
 }
-
 function esc(v){
   return String(v??'')
     .replace(/&/g,'&amp;')
@@ -46,26 +37,21 @@ function esc(v){
     .replace(/>/g,'&gt;')
     .replace(/"/g,'&quot;');
 }
-
 function createRowId(){
   if(window.crypto?.randomUUID){
     return window.crypto.randomUUID();
   }
-
   return 'row-' +
     Date.now().toString(36) +
     '-' +
     Math.random().toString(36).slice(2,10);
 }
-
 function todayStr(){
   const d=new Date();
-
   return `${String(d.getDate()).padStart(2,'0')}/${
     String(d.getMonth()+1).padStart(2,'0')
   }/${d.getFullYear()}`;
 }
-
 function currentDayName(){
   return [
     'Sunday',
@@ -77,7 +63,6 @@ function currentDayName(){
     'Saturday'
   ][new Date().getDay()];
 }
-
 function currentMonthName(){
   return [
     'January',
@@ -94,7 +79,6 @@ function currentMonthName(){
     'December'
   ][new Date().getMonth()];
 }
-
 function daysInMonth(year,monthIndex){
   return new Date(
     year,
@@ -102,7 +86,6 @@ function daysInMonth(year,monthIndex){
     0
   ).getDate();
 }
-
 function monthWeekNumber(d){
   const totalDays=
     daysInMonth(
@@ -120,7 +103,6 @@ function monthWeekNumber(d){
     Math.max(1,week)
   );
 }
-
 function weekStartDay(
   year,
   monthIndex,
@@ -136,7 +118,6 @@ function weekStartDay(
     ((weekNo-1)*totalDays)/4
   )+1;
 }
-
 function currentWeekLabel(){
   return weekLabelFromDate(
     new Date()
@@ -148,7 +129,6 @@ function dateToDMY(d){
     String(d.getMonth()+1).padStart(2,'0')
   }/${d.getFullYear()}`;
 }
-
 function parseDMYDate(s){
   const m=
     /^(\d{2})\/(\d{2})\/(\d{4})$/
