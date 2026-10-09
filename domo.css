@@ -614,3 +614,30 @@ body.sidebar-collapsed .sidebar-note-dot{margin-top:0}
 @media(max-width:760px){.workspace-search-wrap{margin-top:9px;width:calc(100% - 18px)}.workspace-searchbar{min-height:44px}.workspace-search-hint{font-size:10px}.entry-search-toolbar,.feature-table-toolbar{align-items:stretch;flex-direction:column;padding:11px 12px}.entry-search-input-wrap{max-width:none;width:100%}.search-result-count{align-self:flex-start}.feature-card{margin-top:12px}.feature-header{padding:18px 14px;gap:10px}.feature-header h2{font-size:22px}.feature-header p:not(.eyebrow){font-size:12px}.feature-badge{font-size:9px;white-space:normal;text-align:center}.feature-form{padding:12px}.feature-form-grid{grid-template-columns:1fr 1fr;gap:10px}.feature-table-wrap{padding:0 12px 12px}.progress-track{margin:13px 14px 0}}
 @media(max-width:460px){.feature-form-grid{grid-template-columns:1fr}.field-wide{grid-column:auto}.feature-header{flex-direction:column}.feature-badge{align-self:flex-start}.global-search-result-type{display:none}.global-search-results{top:50px}.workspace-search-hint{margin-inline:8px}}
 
+
+/* Mobile usability polish: larger touch targets and clearer primary actions. */
+@media (max-width:760px){
+  .actions{position:relative;gap:10px;padding:14px 12px calc(14px + env(safe-area-inset-bottom));grid-template-columns:repeat(2,minmax(0,1fr));}
+  .actions button{min-height:50px;padding:12px 9px;border-radius:14px;font-size:13px;line-height:1.25;white-space:normal;box-shadow:0 3px 10px rgba(0,0,0,.12);touch-action:manipulation;-webkit-tap-highlight-color:transparent;}
+  #shareBtn,#saveBtn,#printBtn{font-weight:900;}
+  .topbar{padding-top:calc(8px + env(safe-area-inset-top));}
+  .icon-btn, .nav-buttons button, .ocr-tools button{min-height:44px;touch-action:manipulation;}
+  .date-main input{min-height:44px;font-size:16px;}
+  .info-row input,.meta-grid input,.ocr-tools select{font-size:16px;min-height:42px;}
+  .summary-card{min-height:72px;}
+  .table-wrap{padding:10px;}
+  #receiptTable tbody{gap:12px;}
+  #receiptTable tbody tr{box-shadow:0 5px 18px rgba(0,0,0,.08);}
+  #receiptTable td input{font-size:16px;min-height:40px;}
+  .feature-form input,.feature-form select,.feature-form textarea{font-size:16px;min-height:44px;}
+}
+@media (max-width:460px){
+  .actions{grid-template-columns:repeat(2,minmax(0,1fr));}
+  .actions button{font-size:12px;min-height:52px;}
+  .brand-name{max-width:42vw;overflow:hidden;text-overflow:ellipsis;}
+  .workspace-layout{width:calc(100% - 10px);}
+}
+@media print{
+  body.receipt-printing{background:#fff!important;color:#111!important;}
+  body.receipt-printing #printArea{display:block!important;}
+}
