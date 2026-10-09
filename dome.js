@@ -2960,100 +2960,51 @@ function receiptFileName(
 }
 
 function openA4Receipt(){
-  const validationError=
-    validateReceipt();
+  const validationError = validateReceipt();
+  if (validationError) { showToast(validationError, 'err'); return; }
 
-  if(validationError){
-    showToast(
-      validationError,
-      'err'
-    );
+  // Mobile browsers frequently block blob popups. Prefer a same-tab print
+  // surface, which works with Android Chrome and iOS Safari print sheets.
+  const area = document.getElementById('printArea');
+  if (!area) { showToast('Print area is unavailable. Reload the page and try again.', 'err'); return; }
 
-    return;
-  }
+  const oldHtml = area.innerHTML;
+  const oldDisplay = area.style.display;
+  const printStyle = document.createElement('style');
+  printStyle.id = 'temporaryReceiptPrintStyle';
+  printStyle.textContent = `
+    @media screen {
+      body.receipt-printing > :not(#printArea):not(#temporaryReceiptPrintStyle) { display:none !important; }
+      body.receipt-printing #printArea { display:block !important; position:static !important; width:100% !important; margin:0 !important; padding:0 !important; background:#fff !important; }
+    }
+    @media print {
+      body > :not(#printArea):not(#temporaryReceiptPrintStyle) { display:none !important; }
+      #printArea { display:block !important; position:static !important; width:100% !important; margin:0 !important; padding:0 !important; background:#fff !important; }
+      #printArea .print-sheet { page-break-after:always; break-after:page; }
+      #printArea .print-sheet:last-child { page-break-after:auto; break-after:auto; }
+    }
+  `;
+  area.innerHTML = `<style>${PRINT_CSS}</style>${buildPrintBody()}`;
+  document.head.appendChild(printStyle);
+  document.body.classList.add('receipt-printing');
+  area.style.display = 'block';
 
-  const html=`
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta
-  name="viewport"
-  content="width=device-width,initial-scale=1.0"
->
-<title>
-  Sri Sawdamman Infra Receipt
-</title>
+  const cleanup = () => {
+    document.body.classList.remove('receipt-printing');
+    area.innerHTML = oldHtml;
+    area.style.display = oldDisplay;
+    printStyle.remove();
+    window.removeEventListener('afterprint', cleanup);
+  };
+  window.addEventListener('afterprint', cleanup, { once: true });
 
-<style>
-${PRINT_CSS}
-</style>
-</head>
-
-<body>
-${buildPrintBody()}
-
-<script>
-window.onload=function(){
-  setTimeout(function(){
-    window.print();
-
-    setTimeout(function(){
-      window.close();
-    },500);
-  },250);
-};
-<\/script>
-
-</body>
-</html>
-`;
-
-  const blob=
-    new Blob(
-      [html],
-      {
-        type:
-          'text/html;charset=utf-8'
-      }
-    );
-
-  const url=
-    URL.createObjectURL(
-      blob
-    );
-
-  const win=
-    window.open(
-      url,
-      '_blank',
-      'noopener,noreferrer'
-    );
-
-  if(!win){
-    URL.revokeObjectURL(url);
-
-    showToast(
-      'Popup blocked. Please allow popups for this website.',
-      'err'
-    );
-
-    return;
-  }
-
-  setTimeout(
-    ()=>{
-      URL.revokeObjectURL(
-        url
-      );
-    },
-    10000
-  );
-
-  showToast(
-    '🖨️ Print window opened',
-    'ok'
-  );
+  // A small delay lets mobile browsers lay out all pages before opening print UI.
+  requestAnimationFrame(() => setTimeout(() => {
+    try { window.print(); }
+    catch (err) { cleanup(); showToast('Printing is not supported in this browser. Use Download PDF instead.', 'err'); }
+    // Some mobile browsers do not dispatch afterprint; restore when returning.
+    setTimeout(() => { if (document.body.classList.contains('receipt-printing')) cleanup(); }, 120000);
+  }, 180));
 }
 
 document
@@ -3367,89 +3318,67 @@ function buildShareText(){
 }
 
 document
-  .getElementById(
-    'shareBtn'
-  )
-  ?.addEventListener(
-    'click',
-    async ()=>{
-      const validationError=
-        validateReceipt();
+  .getElementById('shareBtn')
+  ?.addEventListener('click', async () => {
+    const validationError = validateReceipt();
+    if (validationError) { showToast(validationError, 'err'); return; }
 
-      if(validationError){
-        showToast(
-          validationError,
-          'err'
-        );
+    const button = document.getElementById('shareBtn');
+    const originalLabel = button?.textContent;
+    if (button) { button.disabled = true; button.textContent = 'Preparing…'; }
+    const text = buildShareText();
 
+    try {
+      // On supported phones, share an actual PDF file through the native share sheet.
+      if (navigator.share && navigator.canShare && window.isSecureContext) {
+        try {
+          const blob = await createPDFBlob();
+          const file = new File([blob], receiptFileName('pdf'), { type: 'application/pdf' });
+          const payload = { title: 'Sri Sawdamman Infra Receipt', text: 'Material Input Receipt', files: [file] };
+          if (navigator.canShare({ files: [file] })) {
+            await navigator.share(payload);
+            showToast('Receipt shared successfully', 'ok');
+            return;
+          }
+        } catch (fileShareError) {
+          if (fileShareError?.name === 'AbortError') return;
+          // Continue with text sharing/copy fallback if PDF sharing is unavailable.
+        }
+      }
+
+      if (navigator.share) {
+        await navigator.share({ title: 'Sri Sawdamman Infra Receipt', text });
+        showToast('Receipt shared successfully', 'ok');
         return;
       }
 
-      const text=
-        buildShareText();
-
-      try{
-
-        if(
-          navigator.share
-        ){
-          await navigator.share({
-            title:
-              'Sri Sawdamman Infra Receipt',
-            text
-          });
-
-          showToast(
-            '✅ Shared successfully',
-            'ok'
-          );
-
-          return;
+      // Clipboard API requires HTTPS on most mobile browsers; provide a legacy fallback.
+      let copied = false;
+      try {
+        if (navigator.clipboard?.writeText && window.isSecureContext) {
+          await navigator.clipboard.writeText(text);
+          copied = true;
         }
-
-        if(
-          navigator.clipboard
-        ){
-          await navigator.clipboard.writeText(
-            text
-          );
-
-          showToast(
-            '✅ Receipt copied to clipboard',
-            'ok'
-          );
-
-          return;
-        }
-
-        alert(text);
-
-      }catch(e){
-
-        if(
-          e.name===
-          'AbortError'
-        ){
-          return;
-        }
-
-        try{
-
-          await navigator.clipboard.writeText(
-            text
-          );
-
-          showToast(
-            '✅ Receipt copied to clipboard',
-            'ok'
-          );
-
-        }catch{
-          alert(text);
-        }
+      } catch (_) {}
+      if (!copied) {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.setAttribute('readonly', '');
+        ta.style.position = 'fixed'; ta.style.opacity = '0'; ta.style.fontSize = '16px';
+        document.body.appendChild(ta); ta.focus(); ta.select(); ta.setSelectionRange(0, ta.value.length);
+        copied = !!document.execCommand('copy');
+        ta.remove();
       }
+      if (copied) showToast('Receipt details copied. Paste them into your sharing app.', 'ok');
+      else window.prompt('Copy receipt details and share them:', text);
+    } catch (err) {
+      if (err?.name !== 'AbortError') {
+        showToast('Sharing was cancelled or unavailable. Use Download PDF, then share the saved file.', 'err');
+      }
+    } finally {
+      if (button) { button.disabled = false; button.textContent = originalLabel || 'Share'; }
     }
-  );
+  });
 
 /* =========================
    THEME
