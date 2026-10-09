@@ -8,7 +8,7 @@
   >
   <meta name="theme-color" content="#0d2060">
   <meta name="color-scheme" content="dark light">
-  <title>Sri Sawdamman Infra</title>
+  <title>Grapinz Client Workspace • Sri Sawdamman Infra</title>
   <link rel="stylesheet" href="domo.css">
 <script
     defer
@@ -35,6 +35,7 @@
   >
   <header class="topbar">
     <div class="brand">
+      <button type="button" id="sidebarToggle" class="icon-btn menu-toggle" aria-label="Toggle sidebar" aria-controls="appSidebar" aria-expanded="true" title="Toggle navigation">☰</button>
       <div class="logo" aria-hidden="true">🏗️</div>
       <div>
         <div class="brand-name">Sri Sawdamman Infra</div>
@@ -52,13 +53,72 @@
       </div>
     </div>
   </header>
-  <main class="app">
-    <section class="card">
+  <section class="workspace-search-wrap" id="workspace-search" aria-label="Search Grapinz workspace">
+    <div class="workspace-searchbar">
+      <span class="workspace-search-icon" aria-hidden="true">⌕</span>
+      <label class="sr-only" for="globalSearch">Search Grapinz workspace</label>
+      <input id="globalSearch" type="search" autocomplete="off" placeholder="Search material entries, clients and archived receipts…" aria-controls="globalSearchResults" aria-expanded="false">
+      <button type="button" id="globalSearchClear" class="search-clear" aria-label="Clear workspace search" title="Clear search">×</button>
+    </div>
+    <div id="globalSearchResults" class="global-search-results" role="listbox" aria-label="Search results" hidden></div>
+    <p id="globalSearchHint" class="workspace-search-hint">Quick search across material entries, client records and archived receipts.</p>
+  </section>
+  <div class="workspace-layout">
+    <aside id="appSidebar" class="app-sidebar" aria-label="Grapinz workspace navigation">
+      <div class="sidebar-heading">
+        <span class="sidebar-mark" aria-hidden="true">G</span>
+        <span class="sidebar-brand-copy"><strong>Grapinz</strong><small>Client workspace</small></span>
+      </div>
+      <div class="sidebar-group-title">WORKSPACE</div>
+      <nav class="sidebar-nav" aria-label="Workspace sections">
+        <a class="side-nav-link is-active" href="#receipt" data-nav-target="receipt" title="Home">
+          <span class="side-nav-icon" aria-hidden="true">⌂</span><span class="side-nav-label">Home</span>
+        </a>
+        <a class="side-nav-link" href="#workspace-search" data-nav-target="workspace-search" title="Search workspace">
+          <span class="side-nav-icon" aria-hidden="true">⌕</span><span class="side-nav-label">Search workspace</span>
+        </a>
+        <a class="side-nav-link" href="#client-crm" data-nav-target="client-crm" title="Client CRM">
+          <span class="side-nav-icon" aria-hidden="true">👥</span><span class="side-nav-label">Client CRM</span>
+        </a>
+<a class="side-nav-link" href="#client-info" data-nav-target="client-info" title="Client details">
+          <span class="side-nav-icon" aria-hidden="true">👥</span><span class="side-nav-label">Client details</span>
+        </a>
+        <a class="side-nav-link" href="#date-period" data-nav-target="date-period" title="Date and period">
+          <span class="side-nav-icon" aria-hidden="true">📅</span><span class="side-nav-label">Date &amp; period</span>
+        </a>
+        <a class="side-nav-link" href="#receipt-summary" data-nav-target="receipt-summary" title="Summary">
+          <span class="side-nav-icon" aria-hidden="true">▦</span><span class="side-nav-label">Summary</span>
+        </a>
+        <a class="side-nav-link" href="#material-entries" data-nav-target="material-entries" title="Material entries">
+          <span class="side-nav-icon" aria-hidden="true">▤</span><span class="side-nav-label">Material entries</span>
+        </a>
+      </nav>
+      <div class="sidebar-divider"></div>
+      <div class="sidebar-group-title">TOOLS</div>
+      <nav class="sidebar-nav" aria-label="Receipt tools">
+        <a class="side-nav-link" href="#image-scan" data-nav-target="image-scan" title="Image scanner">
+          <span class="side-nav-icon" aria-hidden="true">📷</span><span class="side-nav-label">Image scanner</span>
+        </a>
+        <a class="side-nav-link" href="#signature-section" data-nav-target="signature-section" title="Signatures">
+          <span class="side-nav-icon" aria-hidden="true">✍</span><span class="side-nav-label">Signatures</span>
+        </a>
+        <a class="side-nav-link" href="#receipt-actions" data-nav-target="receipt-actions" title="Save, share and print">
+          <span class="side-nav-icon" aria-hidden="true">↗</span><span class="side-nav-label">Save &amp; print</span>
+        </a>
+      </nav>
+      <div class="sidebar-note">
+        <span class="sidebar-note-dot" aria-hidden="true"></span>
+        <span class="sidebar-note-copy"><strong>Workspace ready</strong><small>Drafts saved in this browser</small></span>
+      </div>
+    </aside>
+    <div id="sidebarScrim" class="sidebar-scrim" aria-hidden="true"></div>
+    <main class="app">
+    <section class="card" id="receipt">
       <header class="header">
         <h1>Sri Sawdamman Infra</h1>
         <p>✦ Material Input Receipt ✦</p>
       </header>
-      <section class="info-grid">
+      <section class="info-grid" id="client-info">
         <div class="left-info">
           <div class="info-row">
             <label for="fromInput">From :</label>
@@ -129,7 +189,7 @@
           </div>
         </div>
       </section>
-      <section class="date-nav">
+      <section class="date-nav" id="date-period">
         <div class="date-main">
           <label for="docDate">📅 Date</label>
           <input
@@ -209,7 +269,7 @@
           >
         </div>
       </section>
-      <section class="summary-grid" aria-label="Receipt summary">
+      <section class="summary-grid" id="receipt-summary" aria-label="Receipt summary">
         <article class="summary-card">
           <span class="summary-icon">📦</span>
           <div>
@@ -232,7 +292,7 @@
           </div>
         </article>
       </section>
-      <section class="ocr-tools">
+      <section class="ocr-tools" id="image-scan">
         <label for="ocrLangSelect">
           📷 Image Language
         </label>
@@ -257,7 +317,16 @@
         </button>
         <span class="tool-hint">Best results: clear, straight photo of the material table.</span>
       </section>
-      <div class="table-wrap">
+      <div class="entry-search-toolbar" aria-label="Search receipt entries">
+        <div class="entry-search-input-wrap">
+          <span aria-hidden="true">⌕</span>
+          <label class="sr-only" for="entrySearch">Search receipt entries</label>
+          <input id="entrySearch" type="search" placeholder="Search date, material, quantity, price…" autocomplete="off">
+          <button type="button" id="entrySearchClear" class="search-clear" aria-label="Clear receipt search" title="Clear search">×</button>
+        </div>
+        <span id="entrySearchCount" class="search-result-count" aria-live="polite">Showing all rows</span>
+      </div>
+      <div class="table-wrap" id="material-entries">
         <table id="receiptTable">
           <thead>
             <tr>
@@ -346,12 +415,12 @@
           </table>
         </div>
       </section>
-      <section class="signature-screen">
+      <section class="signature-screen" id="signature-section">
         <div>Prepared By</div>
         <div>Checked By</div>
         <div>Authorised Signatory</div>
       </section>
-      <section class="actions">
+      <section class="actions" id="receipt-actions">
         <button
           type="button"
           id="addRowBtn"
@@ -366,6 +435,7 @@
         >
           💾 Save Draft
         </button>
+        <button type="button" id="archiveReceiptBtn" class="purple">🗂️ Archive Receipt</button>
         <button
           type="button"
           id="clearBtn"
@@ -402,7 +472,32 @@
         <span>Drafts auto-save in this browser.</span>
       </div>
     </section>
-  </main>
+
+    <section class="card feature-card" id="client-crm" aria-labelledby="clientCrmTitle">
+      <header class="feature-header">
+        <div><p class="eyebrow">GRAPINZ · CUSTOMER RELATIONSHIP</p><h2 id="clientCrmTitle">Client CRM</h2><p>Store client contacts, business details and project stages in this browser.</p></div>
+        <span class="feature-badge">Local records</span>
+      </header>
+      <form id="clientForm" class="feature-form" autocomplete="off">
+        <input type="hidden" id="clientRecordId">
+        <div class="feature-form-grid">
+          <div class="field"><label for="clientCompany">Company / Client name *</label><input id="clientCompany" maxlength="120" required placeholder="Company or client name"></div>
+          <div class="field"><label for="clientContact">Primary contact person</label><input id="clientContact" maxlength="100" placeholder="Contact person"></div>
+          <div class="field"><label for="clientDesignation">Designation</label><input id="clientDesignation" maxlength="80" placeholder="Owner / Manager"></div>
+          <div class="field"><label for="clientMobile">Mobile / WhatsApp</label><input id="clientMobile" type="tel" maxlength="20" inputmode="tel" placeholder="+91…"></div>
+          <div class="field"><label for="clientEmail">Email</label><input id="clientEmail" type="email" maxlength="160" placeholder="name@company.com"></div>
+          <div class="field"><label for="clientBusinessType">Business type</label><input id="clientBusinessType" maxlength="100" placeholder="Construction, retail, services…"></div>
+          <div class="field"><label for="clientStage">Project stage</label><select id="clientStage"><option>Lead</option><option>Discovery</option><option>Scope Confirmation</option><option>Proposal Sent</option><option>In Progress</option><option>UAT</option><option>Completed</option><option>On Hold</option></select></div>
+          <div class="field field-wide"><label for="clientNotes">Business needs / notes</label><textarea id="clientNotes" rows="2" maxlength="1000" placeholder="Products/services, workflow, integrations, reports or follow-up notes"></textarea></div>
+        </div>
+        <div class="feature-form-actions"><button type="submit" id="clientSubmitBtn" class="green">＋ Add Client</button><button type="button" id="clientResetBtn" class="gray">Reset form</button><span class="form-note">Client data stays on this device until you export a backup.</span></div>
+      </form>
+      <div class="feature-table-toolbar"><div class="entry-search-input-wrap"><span aria-hidden="true">⌕</span><label class="sr-only" for="clientSearch">Search clients</label><input id="clientSearch" type="search" placeholder="Search clients, phone, email or stage…" autocomplete="off"><button type="button" id="clientSearchClear" class="search-clear" aria-label="Clear client search">×</button></div><span id="clientCount" class="search-result-count">0 clients</span></div>
+      <div class="feature-table-wrap"><table class="feature-table"><thead><tr><th>Company / Client</th><th>Contact</th><th>Phone</th><th>Email</th><th>Stage</th><th>Actions</th></tr></thead><tbody id="clientTableBody"></tbody></table><div id="clientEmpty" class="empty-state">No clients yet. Add your first client using the form above.</div></div>
+    </section>
+
+    </main>
+  </div>
   <div
     id="saveModal"
     class="modal-overlay"
