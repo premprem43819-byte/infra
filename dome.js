@@ -2775,429 +2775,138 @@ document
 ========================= */
 
 const PRINT_CSS=`
-@page{
-  size:A4 portrait;
-  margin:12mm;
-}
-
-*{
-  box-sizing:border-box;
-}
-
-body{
-  margin:0;
-  padding:0;
-  font-family:
-    Arial,
-    Helvetica,
-    sans-serif;
-  color:#111;
-  background:#fff;
-}
-
-.print-sheet{
-  width:100%;
-  min-height:267mm;
-}
-
-.print-title{
-  text-align:center;
-  font-size:31px;
-  font-weight:900;
-  margin-bottom:3px;
-}
-
-.print-subtitle{
-  text-align:center;
-  font-size:14px;
-  font-weight:700;
-  letter-spacing:2px;
-  margin-bottom:15px;
-}
-
-.print-meta{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  border:1px solid #222;
-  margin-bottom:12px;
-}
-
-.print-meta-block{
-  padding:8px;
-}
-
-.print-meta-block+
-.print-meta-block{
-  border-left:1px solid #222;
-}
-
-.print-label{
-  font-weight:800;
-  display:inline-block;
-  min-width:80px;
-}
-
-.print-grid{
-  display:grid;
-  grid-template-columns:
-    repeat(3,1fr);
-  border:1px solid #222;
-  margin-bottom:12px;
-}
-
-.print-grid div{
-  padding:8px;
-}
-
-.print-grid div+
-.print-grid div{
-  border-left:1px solid #222;
-}
-
-.print-table{
-  width:100%;
-  border-collapse:collapse;
-  table-layout:fixed;
-}
-
-.print-table th,
-.print-table td{
-  border:1px solid #222;
-  padding:6px;
-  font-size:11px;
-  vertical-align:middle;
-}
-
-.print-table th{
-  background:#efefef;
-  font-weight:900;
-  text-align:center;
-}
-
-.print-table td:nth-child(1),
-.print-table td:nth-child(2),
-.print-table td:nth-child(4),
-.print-table td:nth-child(5),
-.print-table td:nth-child(6){
-  text-align:center;
-}
-
-.print-table td:nth-child(3){
-  text-align:left;
-}
-
-.print-total-row td{
-  font-weight:900;
-}
-
-.print-signatures{
-  display:grid;
-  grid-template-columns:
-    repeat(3,1fr);
-  gap:18px;
-  margin-top:55px;
-}
-
-.print-signature{
-  text-align:center;
-  padding-top:22px;
-  border-top:1px solid #222;
-  font-weight:700;
-  font-size:11px;
-}
-
-.print-footer{
-  margin-top:18px;
-  text-align:center;
-  font-size:9px;
-  color:#555;
-}
+@page{size:A4 portrait;margin:10mm;}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;font-family:Arial,Helvetica,sans-serif;color:#111;background:#fff;}
+/* Use the whole printable page instead of leaving the table at the top. */
+.print-sheet{width:100%;height:276mm;min-height:276mm;display:flex;flex-direction:column;page-break-after:always;break-after:page;page-break-inside:avoid;break-inside:avoid;position:relative;overflow:visible;}
+.print-sheet:last-child{page-break-after:auto;break-after:auto;}
+.print-page-number{text-align:right;flex:0 0 auto;font-size:9px;color:#555;margin:0 0 3px;}
+.print-title{text-align:center;flex:0 0 auto;font-size:27px;font-weight:900;margin:0 0 2px;}
+.print-subtitle{text-align:center;flex:0 0 auto;font-size:12px;font-weight:800;letter-spacing:1.5px;margin:0 0 8px;}
+.print-meta{display:grid;grid-template-columns:1fr 1fr;flex:0 0 auto;border:1px solid #222;margin-bottom:7px;}
+.print-meta-block{padding:6px;font-size:10px;line-height:1.45;overflow-wrap:anywhere;}
+.print-meta-block+.print-meta-block{border-left:1px solid #222;}
+.print-label{font-weight:800;display:inline-block;min-width:48px;}
+.print-grid{display:grid;grid-template-columns:repeat(3,1fr);flex:0 0 auto;border:1px solid #222;margin-bottom:7px;}
+.print-grid div{padding:5px;font-size:10px;overflow-wrap:anywhere;}
+.print-grid div+div{border-left:1px solid #222;}
+/* The table is the flexible area. Its 20 body rows stretch vertically to fill it. */
+.print-table{width:100%;flex:1 1 0;height:1px;min-height:0;border-collapse:collapse;table-layout:fixed;}
+.print-table thead{height:7mm;}
+.print-table tbody{height:100%;}
+.print-table tbody tr{height:7mm;}
+.print-table th,.print-table td{border:1px solid #222;padding:4px 5px;font-size:9.5px;line-height:1.25;vertical-align:middle;overflow-wrap:anywhere;}
+.print-table th{background:#efefef;font-weight:900;text-align:center;}
+.print-table td:nth-child(1),.print-table td:nth-child(2),.print-table td:nth-child(4),.print-table td:nth-child(5),.print-table td:nth-child(6){text-align:center;}
+.print-table td:nth-child(3){text-align:left;}
+.print-total-row td{font-weight:900;background:#f8f8f8;}
+.print-empty-row td{height:7mm;}
+.print-empty-message td{text-align:center;color:#666;}
+.print-continued-note{flex:0 0 auto;font-size:10px;text-align:center;margin:-3px 0 7px;color:#444;}
+.print-signatures{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;flex:0 0 auto;margin-top:7mm;}
+.print-signature{text-align:center;padding-top:18px;border-top:1px solid #222;font-weight:700;font-size:10px;}
+.print-footer{flex:0 0 auto;margin-top:auto;padding-top:5mm;text-align:center;font-size:8px;color:#555;}
+@media print{.print-sheet{height:276mm;min-height:276mm;} .print-sheet:last-child{page-break-after:auto;break-after:auto;}}
 `;
 
 function buildPrintBody(){
   updateTotals();
 
-  const info=
-    readInfo();
+  const info = readInfo();
+  const rows = readRows(false);
+  const rowsPerPage = 20;
+  const pageCount = Math.max(1, Math.ceil(rows.length / rowsPerPage));
+  const grand = rows.reduce((sum, row) => sum + (parseFloat(row.qty) || 0) * (parseFloat(row.price) || 0), 0);
+  const qtyGrand = rows.reduce((sum, row) => sum + (parseFloat(row.qty) || 0), 0);
+  const place = [info.place1, info.place2, info.place3].filter(Boolean).join(', ') || '—';
+  const cell = [info.cell1, info.cell2].filter(Boolean).join(' / ') || '—';
+  const pages = [];
 
-  const rows=
-    readRows(false);
+  for (let pageIndex = 0; pageIndex < pageCount; pageIndex++) {
+    const pageRows = rows.slice(pageIndex * rowsPerPage, (pageIndex + 1) * rowsPerPage);
+    const isLastPage = pageIndex === pageCount - 1;
+    const actualRows = pageRows.map((row, localIndex) => {
+      const qty = parseFloat(row.qty) || 0;
+      const price = parseFloat(row.price) || 0;
+      const total = qty * price;
+      const serial = pageIndex * rowsPerPage + localIndex + 1;
+      return `<tr class="print-data-row">
+        <td>${serial}</td>
+        <td>${esc(row.date || '—')}</td>
+        <td>${esc(row.material || '—')}</td>
+        <td>${qtyText(qty)}</td>
+        <td>${money(price)}</td>
+        <td>${money(total)}</td>
+      </tr>`;
+    });
 
-  let grand=0;
-  let qtyGrand=0;
+    // Keep a consistent 20-row grid on every page. Blank rows fill unused space,
+    // while the table itself expands vertically to make the entries easy to read.
+    if (!actualRows.length) {
+      actualRows.push('<tr class="print-empty-message"><td colspan="6">No material entries</td></tr>');
+    }
+    const emptyRows = Math.max(0, rowsPerPage - actualRows.length);
+    for (let blankIndex = 0; blankIndex < emptyRows; blankIndex++) {
+      actualRows.push('<tr class="print-empty-row"><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>');
+    }
+    const tableRows = actualRows.join('');
 
-  const tableRows=
-    rows
-      .map(
-        (r,i)=>{
-          const q=
-            parseFloat(
-              r.qty
-            )||0;
+    const totalsFooter = isLastPage ? `
+      <tfoot>
+        <tr class="print-total-row">
+          <td colspan="3" style="text-align:right;">Quantity Total</td>
+          <td>${qtyText(qtyGrand)}</td>
+          <td style="text-align:right;">Grand Total</td>
+          <td>${money(grand)}</td>
+        </tr>
+        ${grand > 0 ? `<tr><td colspan="6"><strong>Amount in Words:</strong> ${esc(toWords(Math.floor(grand)) + ' Rupees Only')}</td></tr>` : ''}
+      </tfoot>` : '';
 
-          const p=
-            parseFloat(
-              r.price
-            )||0;
-
-          const total=q*p;
-
-          qtyGrand+=q;
-          grand+=total;
-
-          return `
-          <tr>
-            <td>${i+1}</td>
-            <td>${esc(
-              r.date||'—'
-            )}</td>
-            <td>${esc(
-              r.material||'—'
-            )}</td>
-            <td>${qtyText(q)}</td>
-            <td>${money(p)}</td>
-            <td>${money(total)}</td>
-          </tr>
-          `;
-        }
-      )
-      .join('');
-
-  return `
-    <div class="print-sheet">
-
-      <div class="print-title">
-        Sri Sawdamman Infra
-      </div>
-
-      <div class="print-subtitle">
-        MATERIAL INPUT RECEIPT
-      </div>
-
-      <div class="print-meta">
-
-        <div class="print-meta-block">
-          <div>
-            <span class="print-label">
-              From:
-            </span>
-            ${esc(
-              info.from||'—'
-            )}
+    pages.push(`
+      <div class="print-sheet">
+        <div class="print-page-number">Page ${pageIndex + 1} of ${pageCount}</div>
+        <div class="print-title">Sri Sawdamman Infra</div>
+        <div class="print-subtitle">MATERIAL INPUT RECEIPT${pageIndex > 0 ? ' · CONTINUED' : ''}</div>
+        ${pageIndex > 0 ? `<div class="print-continued-note">Continued material entries · ${esc(info.docDate || '')}</div>` : ''}
+        <div class="print-meta">
+          <div class="print-meta-block">
+            <div><span class="print-label">From:</span> ${esc(info.from || '—')}</div>
+            <div><span class="print-label">To:</span> ${esc(info.to || '—')}</div>
+            <div><span class="print-label">Date:</span> ${esc(info.docDate || '—')}</div>
           </div>
-
-          <div>
-            <span class="print-label">
-              To:
-            </span>
-            ${esc(
-              info.to||'—'
-            )}
-          </div>
-
-          <div>
-            <span class="print-label">
-              Date:
-            </span>
-            ${esc(
-              info.docDate||'—'
-            )}
+          <div class="print-meta-block">
+            <div><span class="print-label">Place:</span> ${esc(place)}</div>
+            <div><span class="print-label">Cell:</span> ${esc(cell)}</div>
           </div>
         </div>
-
-        <div class="print-meta-block">
-
-          <div>
-            <span class="print-label">
-              Place:
-            </span>
-            ${esc(
-              [
-                info.place1,
-                info.place2,
-                info.place3
-              ]
-                .filter(Boolean)
-                .join(', ')||
-              '—'
-            )}
-          </div>
-
-          <div>
-            <span class="print-label">
-              Cell:
-            </span>
-            ${esc(
-              [
-                info.cell1,
-                info.cell2
-              ]
-                .filter(Boolean)
-                .join(' / ')||
-              '—'
-            )}
-          </div>
-
+        <div class="print-grid">
+          <div><strong>Voucher:</strong> ${esc(info.voucherNo || '—')}</div>
+          <div><strong>Vehicle:</strong> ${esc(info.vehicleNo || '—')}</div>
+          <div><strong>Driver:</strong> ${esc(info.driverName || '—')}</div>
         </div>
+        <table class="print-table">
+          <thead><tr>
+            <th style="width:7%">NO</th>
+            <th style="width:16%">DATE</th>
+            <th style="width:34%">MATERIAL</th>
+            <th style="width:12%">QTY</th>
+            <th style="width:15%">PRICE</th>
+            <th style="width:16%">TOTAL</th>
+          </tr></thead>
+          <tbody>${tableRows || '<tr><td colspan="6" style="text-align:center;">No material entries</td></tr>'}</tbody>
+          ${totalsFooter}
+        </table>
+        ${isLastPage ? `<div class="print-signatures">
+          <div class="print-signature">Prepared By</div>
+          <div class="print-signature">Checked By</div>
+          <div class="print-signature">Authorised Signatory</div>
+        </div>` : ''}
+        <div class="print-footer">Sri Sawdamman Infra — Material Input Receipt · Page ${pageIndex + 1} of ${pageCount}</div>
+      </div>`);
+  }
 
-      </div>
-
-      <div class="print-grid">
-
-        <div>
-          <strong>
-            Voucher:
-          </strong>
-          ${esc(
-            info.voucherNo||
-            '—'
-          )}
-        </div>
-
-        <div>
-          <strong>
-            Vehicle:
-          </strong>
-          ${esc(
-            info.vehicleNo||
-            '—'
-          )}
-        </div>
-
-        <div>
-          <strong>
-            Driver:
-          </strong>
-          ${esc(
-            info.driverName||
-            '—'
-          )}
-        </div>
-
-      </div>
-
-      <table class="print-table">
-
-        <thead>
-          <tr>
-            <th style="width:7%">
-              NO
-            </th>
-
-            <th style="width:16%">
-              DATE
-            </th>
-
-            <th style="width:34%">
-              MATERIAL
-            </th>
-
-            <th style="width:12%">
-              QTY
-            </th>
-
-            <th style="width:15%">
-              PRICE
-            </th>
-
-            <th style="width:16%">
-              TOTAL
-            </th>
-          </tr>
-        </thead>
-
-        <tbody>
-          ${
-            tableRows||
-            `
-            <tr>
-              <td
-                colspan="6"
-                style="text-align:center;"
-              >
-                No material entries
-              </td>
-            </tr>
-            `
-          }
-        </tbody>
-
-        <tfoot>
-
-          <tr class="print-total-row">
-
-            <td
-              colspan="3"
-              style="text-align:right;"
-            >
-              Quantity Total
-            </td>
-
-            <td>
-              ${qtyText(qtyGrand)}
-            </td>
-
-            <td
-              style="text-align:right;"
-            >
-              Grand Total
-            </td>
-
-            <td>
-              ${money(grand)}
-            </td>
-
-          </tr>
-
-          ${
-            grand>0
-              ? `
-              <tr>
-                <td colspan="6">
-                  <strong>
-                    Amount in Words:
-                  </strong>
-                  ${esc(
-                    toWords(
-                      Math.floor(
-                        grand
-                      )
-                    )+
-                    ' Rupees Only'
-                  )}
-                </td>
-              </tr>
-              `
-              :''
-          }
-
-        </tfoot>
-
-      </table>
-
-      <div class="print-signatures">
-
-        <div class="print-signature">
-          Prepared By
-        </div>
-
-        <div class="print-signature">
-          Checked By
-        </div>
-
-        <div class="print-signature">
-          Authorised Signatory
-        </div>
-
-      </div>
-
-      <div class="print-footer">
-        Sri Sawdamman Infra —
-        Material Input Receipt
-      </div>
-
-    </div>
-  `;
+  return pages.join('\n');
 }
 
 function receiptFileName(
@@ -3384,153 +3093,57 @@ async function ensurePdfLibraries(){
 }
 
 async function createPDFBlob(){
-
   await ensurePdfLibraries();
-
-  if(
-    !window.html2canvas||
-    !window.jspdf?.jsPDF
-  ){
-    throw new Error(
-      'PDF libraries could not be loaded.'
-    );
+  if (!window.html2canvas || !window.jspdf?.jsPDF) {
+    throw new Error('PDF libraries could not be loaded.');
   }
 
-  const wrapper=
-    document.createElement(
-      'div'
-    );
+  const wrapper = document.createElement('div');
+  wrapper.style.position = 'fixed';
+  wrapper.style.left = '-100000px';
+  wrapper.style.top = '0';
+  wrapper.style.width = '794px';
+  wrapper.style.background = '#fff';
+  wrapper.style.padding = '0';
+  wrapper.style.zIndex = '-1';
+  wrapper.innerHTML = `<style>${PRINT_CSS}</style>${buildPrintBody()}`;
+  document.body.appendChild(wrapper);
 
-  wrapper.style.position=
-    'fixed';
+  try {
+    const sheets = Array.from(wrapper.querySelectorAll('.print-sheet'));
+    if (!sheets.length) throw new Error('No printable receipt pages were created.');
 
-  wrapper.style.left=
-    '-100000px';
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+    const pageWidth = pdf.internal.pageSize.getWidth();
+    const pageHeight = pdf.internal.pageSize.getHeight();
+    const margin = 8;
+    const usableWidth = pageWidth - margin * 2;
+    const usableHeight = pageHeight - margin * 2;
 
-  wrapper.style.top='0';
-
-  wrapper.style.width=
-    '794px';
-
-  wrapper.style.background=
-    '#fff';
-
-  wrapper.style.padding=
-    '36px';
-
-  wrapper.style.zIndex='-1';
-
-  wrapper.innerHTML=
-    `
-    <style>
-      ${PRINT_CSS}
-    </style>
-
-    ${buildPrintBody()}
-    `;
-
-  document.body.appendChild(
-    wrapper
-  );
-
-  try{
-
-    const canvas=
-      await html2canvas(
-        wrapper,
-        {
-          scale:2,
-          useCORS:true,
-          backgroundColor:
-            '#ffffff',
-          logging:false
-        }
-      );
-
-    const imgData=
-      canvas.toDataURL(
-        'image/png'
-      );
-
-    const {
-      jsPDF
-    }=window.jspdf;
-
-    const pdf=
-      new jsPDF({
-        orientation:
-          'portrait',
-        unit:'mm',
-        format:'a4'
+    for (let index = 0; index < sheets.length; index++) {
+      const canvas = await html2canvas(sheets[index], {
+        scale: 2,
+        useCORS: true,
+        backgroundColor: '#ffffff',
+        logging: false,
+        width: sheets[index].scrollWidth,
+        windowWidth: 794
       });
-
-    const pageWidth=
-      pdf.internal.pageSize
-        .getWidth();
-
-    const pageHeight=
-      pdf.internal.pageSize
-        .getHeight();
-
-    const margin=8;
-
-    const usableWidth=
-      pageWidth-
-      margin*2;
-
-    const imageHeight=
-      canvas.height*
-      usableWidth/
-      canvas.width;
-
-    let heightLeft=
-      imageHeight;
-
-    let position=margin;
-
-    pdf.addImage(
-      imgData,
-      'PNG',
-      margin,
-      position,
-      usableWidth,
-      imageHeight
-    );
-
-    heightLeft-=
-      pageHeight-
-      margin*2;
-
-    while(
-      heightLeft>0
-    ){
-
-      position=
-        heightLeft-
-        imageHeight+
-        margin;
-
-      pdf.addPage();
-
-      pdf.addImage(
-        imgData,
-        'PNG',
-        margin,
-        position,
-        usableWidth,
-        imageHeight
-      );
-
-      heightLeft-=
-        pageHeight-
-        margin*2;
+      const imgData = canvas.toDataURL('image/png');
+      let imageWidth = usableWidth;
+      let imageHeight = canvas.height * imageWidth / canvas.width;
+      if (imageHeight > usableHeight) {
+        imageHeight = usableHeight;
+        imageWidth = canvas.width * imageHeight / canvas.height;
+      }
+      const x = (pageWidth - imageWidth) / 2;
+      if (index > 0) pdf.addPage();
+      pdf.addImage(imgData, 'PNG', x, margin, imageWidth, imageHeight);
     }
 
-    return pdf.output(
-      'blob'
-    );
-
-  }finally{
+    return pdf.output('blob');
+  } finally {
     wrapper.remove();
   }
 }
@@ -3945,6 +3558,16 @@ function toggleTheme(){
    BACKUP
 ========================= */
 
+function readStoredJsonForBackup(key, fallback){
+  try{
+    const raw=localStorage.getItem(key);
+    return raw ? JSON.parse(raw) : fallback;
+  }catch(error){
+    console.warn('Skipping invalid stored Grapinz data:', key, error);
+    return fallback;
+  }
+}
+
 function exportBackup(){
 
   try{
@@ -3970,7 +3593,12 @@ function exportBackup(){
         readInfo(),
 
       rows:
-        readRows(false)
+        readRows(false),
+
+      grapinzData: {
+        clients: readStoredJsonForBackup('grapinz_clients_v1', []),
+        archivedReceipts: readStoredJsonForBackup('grapinz_receipt_archive_v1', [])
+      }
     };
 
     const blob=
@@ -4077,6 +3705,19 @@ function importBackupText(text){
     );
 
     setupTheme();
+  }
+
+  // Backups may include CRM and archived receipt data. Old backups remain compatible;
+  // legacy payment/checklist fields are ignored because those screens were removed.
+  if(d.grapinzData && typeof d.grapinzData==='object'){
+    const extra=d.grapinzData;
+    if(Array.isArray(extra.clients) && extra.clients.length<=10000){
+      localStorage.setItem('grapinz_clients_v1',JSON.stringify(extra.clients));
+    }
+    if(Array.isArray(extra.archivedReceipts) && extra.archivedReceipts.length<=100){
+      localStorage.setItem('grapinz_receipt_archive_v1',JSON.stringify(extra.archivedReceipts));
+    }
+    window.dispatchEvent(new CustomEvent('grapinz:backup-restored'));
   }
 
   updateTotals();
@@ -4521,3 +4162,462 @@ function setupPrimaryFieldLimits(){
     }
   );
 }
+
+/* =========================
+   GRAPINZ SIDEBAR NAVIGATION
+   Independent of the receipt/save/print logic above.
+========================= */
+(function setupGrapinzSidebar(){
+  const sidebar = document.getElementById('appSidebar');
+  const toggle = document.getElementById('sidebarToggle');
+  const scrim = document.getElementById('sidebarScrim');
+  if (!sidebar || !toggle || !scrim) return;
+
+  const mobileQuery = window.matchMedia('(max-width: 760px)');
+  const navLinks = Array.from(sidebar.querySelectorAll('[data-nav-target]'));
+  const storageKey = 'grapinz_sidebar_collapsed_v1';
+
+  function readCollapsedPreference(){
+    try { return localStorage.getItem(storageKey) === '1'; }
+    catch (error) { return false; }
+  }
+
+  function writeCollapsedPreference(collapsed){
+    try { localStorage.setItem(storageKey, collapsed ? '1' : '0'); }
+    catch (error) { /* Navigation still works when storage is blocked. */ }
+  }
+
+  function setDrawerOpen(open){
+    sidebar.classList.toggle('open', open);
+    scrim.classList.toggle('show', open);
+    toggle.setAttribute('aria-expanded', String(open));
+    scrim.setAttribute('aria-hidden', String(!open));
+  }
+
+  function setDesktopExpanded(expanded, persist = true){
+    document.body.classList.toggle('sidebar-collapsed', !expanded);
+    toggle.setAttribute('aria-expanded', String(expanded));
+    toggle.title = expanded ? 'Collapse navigation' : 'Expand navigation';
+    if (persist) writeCollapsedPreference(!expanded);
+  }
+
+  if (!mobileQuery.matches) setDesktopExpanded(!readCollapsedPreference(), false);
+  else setDrawerOpen(false);
+
+  toggle.addEventListener('click', function(){
+    if (mobileQuery.matches) {
+      setDrawerOpen(!sidebar.classList.contains('open'));
+    } else {
+      setDesktopExpanded(document.body.classList.contains('sidebar-collapsed'));
+    }
+  });
+
+  scrim.addEventListener('click', function(){ setDrawerOpen(false); });
+
+  navLinks.forEach(function(link){
+    link.addEventListener('click', function(){
+      navLinks.forEach(function(item){ item.classList.remove('is-active'); });
+      link.classList.add('is-active');
+      if (mobileQuery.matches) setDrawerOpen(false);
+    });
+  });
+
+  document.addEventListener('keydown', function(event){
+    if (event.key === 'Escape' && sidebar.classList.contains('open')) {
+      setDrawerOpen(false);
+      toggle.focus();
+    }
+  });
+
+  function onBreakpointChange(){
+    setDrawerOpen(false);
+    if (!mobileQuery.matches) setDesktopExpanded(!readCollapsedPreference(), false);
+    else {
+      document.body.classList.remove('sidebar-collapsed');
+      toggle.setAttribute('aria-expanded', 'false');
+    }
+  }
+
+  if (typeof mobileQuery.addEventListener === 'function') {
+    mobileQuery.addEventListener('change', onBreakpointChange);
+  } else if (typeof mobileQuery.addListener === 'function') {
+    mobileQuery.addListener(onBreakpointChange);
+  }
+
+  let scrollFrame = 0;
+  function updateActiveSection(){
+    if (scrollFrame) return;
+    scrollFrame = window.requestAnimationFrame(function(){
+      scrollFrame = 0;
+      let current = 'receipt';
+      const marker = mobileQuery.matches ? 95 : 112;
+      navLinks.forEach(function(link){
+        const target = document.getElementById(link.dataset.navTarget);
+        if (target && target.getBoundingClientRect().top <= marker) current = target.id;
+      });
+      navLinks.forEach(function(link){
+        link.classList.toggle('is-active', link.dataset.navTarget === current);
+      });
+    });
+  }
+
+  window.addEventListener('scroll', updateActiveSection, { passive: true });
+  window.addEventListener('resize', updateActiveSection, { passive: true });
+  updateActiveSection();
+})();
+
+
+
+/* =========================
+   GRAPINZ WORKSPACE FEATURES
+   Global search, client CRM and receipt archive.
+========================= */
+(function setupGrapinzFeatures(){
+  'use strict';
+  const CLIENTS_KEY = 'grapinz_clients_v1';
+  const ARCHIVE_KEY = 'grapinz_receipt_archive_v1';
+  const $ = (id) => document.getElementById(id);
+  const globalSearch = $('globalSearch');
+  const globalResults = $('globalSearchResults');
+  const globalHint = $('globalSearchHint');
+  const clientForm = $('clientForm');
+  if (!globalSearch || !globalResults || !clientForm) return;
+
+  function readStore(key, fallback){
+    try {
+      const value = localStorage.getItem(key);
+      if (!value) return fallback;
+      const parsed = JSON.parse(value);
+      return parsed == null ? fallback : parsed;
+    } catch (error) {
+      console.warn('Grapinz storage read failed:', key, error);
+      return fallback;
+    }
+  }
+  function writeStore(key, value){
+    try {
+      localStorage.setItem(key, JSON.stringify(value));
+      return true;
+    } catch (error) {
+      console.error('Grapinz storage write failed:', key, error);
+      showToast('Could not save this data in browser storage. Export a backup or free storage space.', 'err');
+      return false;
+    }
+  }
+  function notify(message, type){
+    if (typeof showToast === 'function') showToast(message, type || 'ok');
+  }
+  function uid(prefix){
+    if (window.crypto && typeof window.crypto.randomUUID === 'function') return prefix + '-' + window.crypto.randomUUID();
+    return prefix + '-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 10);
+  }
+  function textValue(id){ return String($(id)?.value || '').trim(); }
+  function norm(value){
+    return String(value ?? '').normalize('NFKD').toLocaleLowerCase().replace(/[\u0300-\u036f]/g, '').trim();
+  }
+  function statusClass(status){ return norm(status).replace(/[^a-z0-9]+/g, '-'); }
+
+  let clients = readStore(CLIENTS_KEY, []);
+  let archivedReceipts = readStore(ARCHIVE_KEY, []);
+  if (!Array.isArray(clients)) clients = [];
+  clients = clients.filter(item => item && typeof item === 'object' && !Array.isArray(item));
+  if (!Array.isArray(archivedReceipts)) archivedReceipts = [];
+  archivedReceipts = archivedReceipts.filter(item => item && typeof item === 'object' && !Array.isArray(item));
+
+  // Receipt table search filters only display rows; all rows remain available for totals, PDF and printing.
+  const entrySearch = $('entrySearch');
+  const entrySearchClear = $('entrySearchClear');
+  const entrySearchCount = $('entrySearchCount');
+  function rowSearchText(row){
+    return ['.rdate', '.rmat', '.rqty', '.rprice']
+      .map(selector => row.querySelector(selector)?.value || '')
+      .concat(row.querySelector('.rtotal')?.textContent || '')
+      .join(' ');
+  }
+  function filterReceiptRows(){
+    if (!entrySearch || !$('tbody')) return { shown: 0, total: 0 };
+    const q = norm(entrySearch.value);
+    const rows = Array.from($('tbody').rows);
+    let shown = 0;
+    rows.forEach(row => {
+      const match = !q || norm(rowSearchText(row)).includes(q);
+      row.hidden = !match;
+      if (match) shown++;
+    });
+    if (entrySearchCount) entrySearchCount.textContent = q ? `Showing ${shown} of ${rows.length} rows` : `Showing all ${rows.length} rows`;
+    return { shown, total: rows.length };
+  }
+  entrySearch?.addEventListener('input', filterReceiptRows);
+  entrySearchClear?.addEventListener('click', () => {
+    if (!entrySearch) return;
+    entrySearch.value = '';
+    filterReceiptRows();
+    entrySearch.focus();
+  });
+  if ($('tbody')) {
+    const tableObserver = new MutationObserver(() => filterReceiptRows());
+    tableObserver.observe($('tbody'), { childList: true });
+    $('tbody').addEventListener('input', () => {
+      filterReceiptRows();
+      if (!globalResults.hidden) renderGlobalSearch();
+    });
+  }
+
+  // Client CRM: add, edit, delete and search client records in this browser.
+  function resetClientForm(){
+    clientForm.reset();
+    $('clientRecordId').value = '';
+    $('clientSubmitBtn').textContent = '＋ Add Client';
+  }
+  function renderClients(){
+    const body = $('clientTableBody');
+    const empty = $('clientEmpty');
+    const count = $('clientCount');
+    if (!body) return;
+    const query = norm(textValue('clientSearch'));
+    const filtered = clients.filter(client => norm([
+      client.company, client.contact, client.designation, client.mobile, client.email,
+      client.businessType, client.stage, client.notes
+    ].join(' ')).includes(query));
+    body.innerHTML = filtered.map(client => `
+      <tr data-record-id="${esc(client.id)}">
+        <td><strong>${esc(client.company)}</strong>${client.businessType ? `<div class="muted-cell">${esc(client.businessType)}</div>` : ''}</td>
+        <td>${esc(client.contact || '—')}${client.designation ? `<div class="muted-cell">${esc(client.designation)}</div>` : ''}</td>
+        <td>${client.mobile ? `<a href="tel:${esc(client.mobile.replace(/[^+\d]/g, ''))}">${esc(client.mobile)}</a>` : '—'}</td>
+        <td>${client.email ? `<a href="mailto:${esc(client.email)}">${esc(client.email)}</a>` : '—'}</td>
+        <td><span class="status-pill ${statusClass(client.stage)}">${esc(client.stage || 'Lead')}</span></td>
+        <td><div class="table-actions"><button type="button" class="table-action" data-client-action="edit" data-id="${esc(client.id)}">Edit</button><button type="button" class="table-action delete" data-client-action="delete" data-id="${esc(client.id)}">Delete</button></div></td>
+      </tr>`).join('');
+    if (empty) {
+      empty.hidden = filtered.length > 0;
+      empty.textContent = clients.length ? 'No clients match this search.' : 'No clients yet. Add your first client using the form above.';
+    }
+    if (count) count.textContent = `${filtered.length} of ${clients.length} client${clients.length === 1 ? '' : 's'}`;
+  }
+  clientForm.addEventListener('submit', event => {
+    event.preventDefault();
+    const company = textValue('clientCompany');
+    const email = textValue('clientEmail');
+    const mobile = textValue('clientMobile');
+    if (!company) { notify('Enter a company or client name.', 'err'); $('clientCompany').focus(); return; }
+    if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { notify('Enter a valid email address.', 'err'); $('clientEmail').focus(); return; }
+    if (mobile && mobile.replace(/\D/g, '').length < 7) { notify('Enter a valid contact number or leave it blank.', 'err'); $('clientMobile').focus(); return; }
+    const record = {
+      id: textValue('clientRecordId') || uid('client'),
+      company,
+      contact: textValue('clientContact'),
+      designation: textValue('clientDesignation'),
+      mobile,
+      email,
+      businessType: textValue('clientBusinessType'),
+      stage: textValue('clientStage') || 'Lead',
+      notes: textValue('clientNotes'),
+      updatedAt: new Date().toISOString()
+    };
+    const index = clients.findIndex(item => item.id === record.id);
+    if (index >= 0) clients[index] = { ...clients[index], ...record };
+    else { record.createdAt = record.updatedAt; clients.unshift(record); }
+    if (writeStore(CLIENTS_KEY, clients)) {
+      renderClients(); renderGlobalSearch(); resetClientForm();
+      notify(index >= 0 ? 'Client updated successfully.' : 'Client added successfully.', 'ok');
+    }
+  });
+  $('clientResetBtn')?.addEventListener('click', resetClientForm);
+  $('clientSearch')?.addEventListener('input', renderClients);
+  $('clientSearchClear')?.addEventListener('click', () => {
+    $('clientSearch').value = '';
+    renderClients();
+    $('clientSearch').focus();
+  });
+  $('clientTableBody')?.addEventListener('click', event => {
+    const button = event.target.closest('button[data-client-action]');
+    if (!button) return;
+    const client = clients.find(item => item.id === button.dataset.id);
+    if (!client) return;
+    if (button.dataset.clientAction === 'edit') {
+      $('clientRecordId').value = client.id;
+      $('clientCompany').value = client.company || '';
+      $('clientContact').value = client.contact || '';
+      $('clientDesignation').value = client.designation || '';
+      $('clientMobile').value = client.mobile || '';
+      $('clientEmail').value = client.email || '';
+      $('clientBusinessType').value = client.businessType || '';
+      $('clientStage').value = client.stage || 'Lead';
+      $('clientNotes').value = client.notes || '';
+      $('clientSubmitBtn').textContent = '✓ Update Client';
+      clientForm.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      $('clientCompany').focus({ preventScroll: true });
+    } else if (button.dataset.clientAction === 'delete' && window.confirm(`Delete client “${client.company}”?`)) {
+      clients = clients.filter(item => item.id !== client.id);
+      if (writeStore(CLIENTS_KEY, clients)) {
+        renderClients(); renderGlobalSearch(); notify('Client deleted.', 'ok');
+      }
+    }
+  });
+
+  function currentReceiptSnapshot(){
+    const data = {};
+    document.querySelectorAll('[data-key]').forEach(el => { data[el.dataset.key] = el.value; });
+    const rows = Array.from($('tbody')?.rows || []).map(row => ({
+      date: row.querySelector('.rdate')?.value || '',
+      material: row.querySelector('.rmat')?.value || '',
+      qty: row.querySelector('.rqty')?.value || '',
+      price: row.querySelector('.rprice')?.value || ''
+    })).filter(row => row.date || row.material || row.qty || row.price);
+    const total = rows.reduce((sum, row) => sum + (Number(row.qty) || 0) * (Number(row.price) || 0), 0);
+    return { id: uid('receipt'), savedAt: new Date().toISOString(), info: data, rows, total,
+      from: data.from || '', to: data.to || '', voucherNo: data.voucherNo || '', docDate: data.docDate || '' };
+  }
+  function archiveReceipt(){
+    const snapshot = currentReceiptSnapshot();
+    if (!snapshot.rows.length) { notify('Add at least one material entry before archiving.', 'err'); return; }
+    archivedReceipts.unshift(snapshot);
+    archivedReceipts = archivedReceipts.slice(0, 100);
+    if (writeStore(ARCHIVE_KEY, archivedReceipts)) {
+      notify('Receipt archived in this browser.', 'ok');
+      renderGlobalSearch();
+    }
+  }
+  $('archiveReceiptBtn')?.addEventListener('click', archiveReceipt);
+
+  // Global search covers material rows, CRM clients, archived receipts and current receipt details.
+  function globalSearchSources(query){
+    const q = norm(query);
+    if (!q) return [];
+    const results = [];
+    const add = (type, title, subtitle, icon, searchValue) => results.push({ type, title, subtitle, icon, searchValue: searchValue || query });
+
+    Array.from($('tbody')?.rows || []).forEach((row, index) => {
+      const material = row.querySelector('.rmat')?.value || '';
+      const date = row.querySelector('.rdate')?.value || '';
+      const qty = row.querySelector('.rqty')?.value || '';
+      const price = row.querySelector('.rprice')?.value || '';
+      const total = row.querySelector('.rtotal')?.textContent || '';
+      if (norm([material, date, qty, price, total].join(' ')).includes(q)) {
+        add('receipt', material || `Material row ${index + 1}`, `${date || 'No date'} · Qty ${qty || '—'} · ${total || 'No total'}`, '📦', query);
+      }
+    });
+    clients.forEach(client => {
+      if (norm([client.company, client.contact, client.mobile, client.email, client.businessType, client.stage, client.notes].join(' ')).includes(q)) {
+        add('client', client.company, `${client.contact || 'No contact'} · ${client.stage || 'Lead'} · ${client.mobile || client.email || 'Client record'}`, '👥', query);
+      }
+    });
+    archivedReceipts.forEach((receipt, archiveIndex) => {
+      if (norm([receipt.from, receipt.to, receipt.voucherNo, receipt.docDate, receipt.total,
+        (receipt.rows || []).map(row => [row.material, row.date, row.qty, row.price].join(' ')).join(' ')].join(' ')).includes(q)) {
+        add('archive', receipt.voucherNo || `Receipt ${receipt.docDate || ''}`,
+          `${receipt.from || 'From —'} → ${receipt.to || 'To —'} · ${money(receipt.total)} · ${new Date(receipt.savedAt).toLocaleDateString()}`,
+          '🗂️', query);
+        results[results.length - 1].archiveIndex = archiveIndex;
+      }
+    });
+    const infoTargets = [
+      ['fromInput', 'From location'], ['toInput', 'To location'], ['voucherNo', 'Voucher'],
+      ['vehicleNo', 'Vehicle'], ['driverName', 'Driver'], ['docDate', 'Receipt date'],
+      ['place1', 'Place'], ['place2', 'Place'], ['place3', 'Place'], ['cell1', 'Phone'], ['cell2', 'Phone']
+    ];
+    infoTargets.forEach(([id, label]) => {
+      const el = $(id);
+      if (el && norm(el.value).includes(q)) {
+        add('details', el.value, `${label} in the current receipt`, '🔎', query);
+        results[results.length - 1].fieldId = id;
+      }
+    });
+    return results.slice(0, 18);
+  }
+
+  function renderGlobalSearch(){
+    const query = globalSearch.value.trim();
+    if (!query) {
+      globalResults.innerHTML = '';
+      globalResults.hidden = true;
+      globalSearch.setAttribute('aria-expanded', 'false');
+      globalHint.textContent = 'Quick search across material entries, client records and archived receipts.';
+      return;
+    }
+    const results = globalSearchSources(query);
+    globalResults.innerHTML = results.length
+      ? `<div class="search-results-heading">${results.length} matching result${results.length === 1 ? '' : 's'} · select to open</div>` +
+        results.map((item, index) => `<button type="button" class="global-search-result" role="option" data-result-type="${esc(item.type)}" data-result-index="${index}"><span class="global-search-result-icon" aria-hidden="true">${item.icon}</span><span class="global-search-result-copy"><strong>${esc(item.title || 'Untitled')}</strong><small>${esc(item.subtitle || '')}</small></span><span class="global-search-result-type">${esc(item.type === 'details' ? 'Receipt details' : item.type)}</span></button>`).join('')
+      : '<div class="search-no-results">No matches found. Try a material name, client name, receipt date or voucher.</div>';
+    globalResults.hidden = false;
+    globalSearch.setAttribute('aria-expanded', 'true');
+    globalHint.textContent = results.length ? `Showing ${results.length} matching result${results.length === 1 ? '' : 's'}.` : 'No matching records found.';
+    Array.from(globalResults.querySelectorAll('[data-result-index]')).forEach(button => button.addEventListener('click', () => {
+      const result = results[Number(button.dataset.resultIndex)];
+      if (!result) return;
+      globalResults.hidden = true;
+      globalSearch.setAttribute('aria-expanded', 'false');
+      if (result.type === 'receipt') {
+        if (entrySearch) entrySearch.value = result.searchValue;
+        filterReceiptRows();
+        $('material-entries')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      } else if (result.type === 'client') {
+        const clientSearch = $('clientSearch');
+        if (clientSearch) clientSearch.value = result.searchValue;
+        renderClients();
+        $('client-crm')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      } else if (result.type === 'archive') {
+        const receipt = archivedReceipts[Number(result.archiveIndex)];
+        if (receipt && window.confirm(`Restore archived receipt ${receipt.voucherNo || receipt.docDate || ''} as the current draft? The current draft will be replaced.`)) {
+          if (receipt.info && typeof receipt.info === 'object') writeInfo(receipt.info);
+          $('tbody').innerHTML = '';
+          (Array.isArray(receipt.rows) ? receipt.rows : []).forEach(row => addRow(row));
+          while ($('tbody').rows.length < MIN_ROWS) addRow();
+          syncPeriodFromDocDate(false);
+          updateTotals();
+          saveDraft();
+          filterReceiptRows();
+          notify('Archived receipt restored as the current draft.', 'ok');
+        }
+        $('receipt')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      } else {
+        const field = $(result.fieldId);
+        (field || $('client-info'))?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        if (field) field.focus({ preventScroll: true });
+      }
+    }));
+  }
+
+  globalSearch.addEventListener('input', renderGlobalSearch);
+  $('globalSearchClear')?.addEventListener('click', () => {
+    globalSearch.value = '';
+    renderGlobalSearch();
+    globalSearch.focus();
+  });
+  globalSearch.addEventListener('keydown', event => {
+    if (event.key === 'Escape') {
+      globalSearch.value = '';
+      renderGlobalSearch();
+      globalSearch.blur();
+    } else if (event.key === 'Enter') {
+      globalResults.querySelector('button[data-result-index]')?.click();
+    }
+  });
+  document.addEventListener('click', event => {
+    if (!event.target.closest('.workspace-search-wrap')) {
+      globalResults.hidden = true;
+      globalSearch.setAttribute('aria-expanded', 'false');
+    }
+  });
+  document.addEventListener('input', event => {
+    if (event.target.matches('#fromInput,#toInput,#voucherNo,#vehicleNo,#driverName,#docDate,[data-key="place1"],[data-key="place2"],[data-key="place3"],[data-key="cell1"],[data-key="cell2"]')) {
+      if (!globalResults.hidden) renderGlobalSearch();
+    }
+  });
+  window.addEventListener('grapinz:backup-restored', () => {
+    clients = readStore(CLIENTS_KEY, []);
+    if (!Array.isArray(clients)) clients = [];
+    clients = clients.filter(item => item && typeof item === 'object' && !Array.isArray(item));
+    archivedReceipts = readStore(ARCHIVE_KEY, []);
+    if (!Array.isArray(archivedReceipts)) archivedReceipts = [];
+    archivedReceipts = archivedReceipts.filter(item => item && typeof item === 'object' && !Array.isArray(item));
+    renderClients();
+    filterReceiptRows();
+    renderGlobalSearch();
+  });
+
+  renderClients();
+  filterReceiptRows();
+  renderGlobalSearch();
+})();
